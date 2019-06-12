@@ -1361,7 +1361,7 @@ var showFiles = function showFiles(filesList) {
         $('#content_list tbody').append($('<tr />').append($('<td>').addClass('td-check').append($('<div />').addClass('form-check').append($('<label />').addClass('form-check-label').append($('<input />').addClass('form-check-input').attr({
             type: 'checkbox',
             value: file.path
-        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left').append($('<i />').addClass('material-icons text-gray text-center').text('attachment'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn btn-sm tooltip-btn edit-btn').attr('id', 'btn_edit').append($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
+        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left').append($('<i />').addClass('material-icons text-gray text-center').text('attachment'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-danger btn-sm tooltip-btn delete-lock-btn').attr('id', 'btn_lock_delete').append($('<i />').addClass('material-icons').text('delete_forever'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn').attr('id', 'btn_lock_edit').append($('<i />').addClass('material-icons').text('lock'))).append($('<button />').addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn').attr('id', 'btn_edit').append($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
     });
 };
 
@@ -1591,6 +1591,60 @@ $(document).ready(function () {
         event.preventDefault();
 
         $('input[name="local_file"]').val($(this)[0].files.length + ' files selected');
+    });
+
+    $(document).on('click', '.delete-lock-btn', function (event) {
+        event.preventDefault();
+        var row = $(this).parents('tr');
+
+        var path = row.find('input[type="checkbox"]').val();
+
+        var button = $(this);
+
+        showSpinner(button);
+
+        axios.get('/api/lock-delete', {
+            params: {
+                path: path
+            }
+        }).then(function (response) {
+
+            hideSpinner(button);
+            console.log(response);
+            showMessage(response.data.message);
+        }).catch(function (error) {
+
+            hideSpinner(button);
+
+            showError(error.response.data.message);
+        });
+    });
+
+    $(document).on('click', '.edit-lock-btn', function (event) {
+        event.preventDefault();
+        var row = $(this).parents('tr');
+
+        var path = row.find('input[type="checkbox"]').val();
+
+        var button = $(this);
+
+        showSpinner(button);
+
+        axios.get('/api/lock-edit', {
+            params: {
+                path: path
+            }
+        }).then(function (response) {
+
+            hideSpinner(button);
+            console.log(response);
+            showMessage(response.data.message);
+        }).catch(function (error) {
+
+            hideSpinner(button);
+
+            showError(error.response.data.message);
+        });
     });
 
     $(document).on('click', 'input[name="local_file"]', function (event) {

@@ -14,6 +14,7 @@ use App\Http\Requests\ContentRename;
 use App\Http\Requests\DirectoryMake;
 use App\Http\Requests\FileDownload;
 use App\Http\Requests\FileUpload;
+use App\Http\Requests\LockRequest;
 use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
@@ -53,6 +54,23 @@ class StorageService
 			$role = trim($role);
 			return $role;
 		}
+	}
+
+	public function lockDelete(LockRequest $request) {
+		$path = $request->path;
+		$lockDeleteInfoPath = env('DELETE_LOCK_PATH', '/');
+		if ($this->isFile($lockDeleteInfoPath)) {
+			$this->storage->append($lockDeleteInfoPath, $path);
+		}
+
+	}
+	public function lockEdit(LockRequest $request) {
+		$path = $request->path;
+		$lockEditInfoPath = env('EDIT_LOCK_PATH', '/');
+		if ($this->isFile($lockEditInfoPath)) {
+			$this->storage->append($lockEditInfoPath, $path);
+		}
+
 	}
 
 	/** Get directory content
@@ -127,7 +145,7 @@ class StorageService
 
 	   	$path = $request->path;
 	   	$this->checkExists($path);
-	   	$this->checkLocked($path);
+	   	$this->checkLockedEdit($path);
 	   	$content = $this->storage->get($path);
 	   	return $content;
 
@@ -322,7 +340,7 @@ class StorageService
 		$pathList = $request->path_list;
 
 		foreach ($pathList as $path) {
-			$this->checkLocked($path);
+			$this->checkLockedDelete($path);
 			$this->backup($path);
 			if ($this->isFile($path)) {
 
@@ -624,16 +642,52 @@ class StorageService
 	{
 		$default_list = 'Backup_folder/ Logging_folder/ User_management/ Locked_data/';
 		$role = session()->get('role', '');
-		$lockedFileInfoPath = env('LOCK_PATH');
-		$lockedFiles = $this->storage->get($lockedFileInfoPath);
 		if ($role != 'admin') {
-			if ($role == 'superuser') {
-				if(strpos($default_list, $path) != FALSE)
-					throw new StorageException("You don't have permission to this path");
-			} else {
-				if(strpos($default_list, $path) != FALSE || strpos($lockedFiles, $path) != FALSE)
-					throw new StorageException("You don't have permission to this path");
-			}
+			if(strpos($default_list, $path) != FALSE)
+				throw new StorageException("You don't have permission to this path");
+		}
+	}
+
+	/**
+	 * Check if file/directory is locked
+	 *
+	 * @param string $path
+	 *
+	 * return void
+	 * @throws StorageException
+	 */
+	private function checkLockedDelete($path)
+	{
+		$role = session()->get('role', '');
+
+		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
+		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+
+		$lockedDeleteFileInfoPath = env('DELETE_LOCK_PATH');
+		$lockedDeleteFiles = $this->storage->get($lockedDeleteFileInfoPath);
+
+		if ($role == 'user') {
+			if(strpos($lockedEditFiles, $path) != FALSE || strpos($lockedDeleteFiles, $path) != FALSE)
+				throw new StorageException("You don't have permission to this path");
+		}
+	}
+
+	/**
+	 * Check if file/directory is locked
+	 *
+	 * @param string $path
+	 *
+	 * return void
+	 * @throws StorageException
+	 */
+	private function checkLockedEdit($path)
+	{
+		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
+		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+
+		if ($role == 'user') {
+			if(strpos($lockedEditFiles, $path) != FALSE)
+				throw new StorageException("You don't have permission to this path");
 		}
 	}
 

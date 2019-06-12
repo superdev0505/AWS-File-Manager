@@ -5,6 +5,9 @@ Route::get('/info', 'ApiController@info');
 Route::get('/download', 'ApiController@download');
 Route::get('/edit','ApiController@edit');
 
+Route::get('/lock-delete','ApiController@lockDelete');
+Route::get('/lock-edit','ApiController@lockEdit');
+
 
 Route::post('/make-directory', 'ApiController@makeDirectory');
 Route::post('/remove', 'ApiController@remove');

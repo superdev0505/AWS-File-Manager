@@ -216,7 +216,27 @@ const showFiles = filesList => {
                             .addClass('td-actions text-right')
                             .append(
                                 $('<button />')
-                                    .addClass('btn btn btn-sm tooltip-btn edit-btn')
+                                    .addClass('btn btn-danger btn-sm tooltip-btn delete-lock-btn')
+                                    .attr('id', 'btn_lock_delete')
+                                    .append(
+                                        $('<i />')
+                                            .addClass('material-icons')
+                                            .text('delete_forever')
+                                    )
+                            )
+                            .append(
+                                $('<button />')
+                                    .addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn')
+                                    .attr('id', 'btn_lock_edit')
+                                    .append(
+                                        $('<i />')
+                                            .addClass('material-icons')
+                                            .text('lock')
+                                    )
+                            )
+                            .append(
+                                $('<button />')
+                                    .addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn')
                                     .attr('id', 'btn_edit')
                                     .append(
                                         $('<i />')
@@ -587,6 +607,82 @@ $(document).ready(function () {
 
         $('input[name="local_file"]').val($(this)[0].files.length + ' files selected');
 
+    });
+
+    $(document).on('click', '.delete-lock-btn', function(event) {
+        event.preventDefault();
+        const row = $(this).parents('tr');
+
+        let path = row.find('input[type="checkbox"]').val();
+
+        const button = $(this);
+
+        showSpinner(button);
+
+        axios.get(
+            '/api/lock-delete',
+            {
+                params: {
+                    path
+                }
+            }
+        )
+            .then(
+                response => {
+
+                    hideSpinner(button);
+                    console.log(response);
+                    showMessage(response.data.message)
+
+                }
+            )
+            .catch(
+                error => {
+
+                    hideSpinner(button);
+
+                    showError(error.response.data.message);
+
+                }
+            )
+    });
+
+    $(document).on('click', '.edit-lock-btn', function(event) {
+        event.preventDefault();
+        const row = $(this).parents('tr');
+
+        let path = row.find('input[type="checkbox"]').val();
+
+        const button = $(this);
+
+        showSpinner(button);
+
+        axios.get(
+            '/api/lock-edit',
+            {
+                params: {
+                    path
+                }
+            }
+        )
+            .then(
+                response => {
+
+                    hideSpinner(button);
+                    console.log(response);
+                    showMessage(response.data.message)
+
+                }
+            )
+            .catch(
+                error => {
+
+                    hideSpinner(button);
+
+                    showError(error.response.data.message);
+
+                }
+            )
     });
 
     $(document).on('click', 'input[name="local_file"]', function (event) {

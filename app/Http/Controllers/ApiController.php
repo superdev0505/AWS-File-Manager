@@ -14,6 +14,7 @@ use App\Http\Requests\ContentRename;
 use App\Http\Requests\DirectoryMake;
 use App\Http\Requests\FileDownload;
 use App\Http\Requests\FileUpload;
+use App\Http\Requests\LockRequest;
 use App\Models\StorageService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Session;
@@ -89,7 +90,13 @@ class ApiController extends Controller
 		);
 
 	}
-
+	/**
+	 * Save
+	 *
+	 * @param ContentSave $request
+	 *
+	 * @return JSON
+	 */
 	public function save(ContentSave $request)
 	{
 
@@ -209,6 +216,21 @@ class ApiController extends Controller
 			[]
 		);
 
+	}
+
+	public function lockDelete(LockRequest $request) {
+		$this->storageService->lockDelete($request);
+		return response()->json(
+			['message'=>'Successfully set']
+		);
+	}
+
+
+	public function lockEdit(LockRequest $request) {
+		$this->storageService->lockEdit($request);
+		return response()->json(
+			['message'=>'Successfully set']
+		);
 	}
 
 }
