@@ -17,7 +17,7 @@ class CustomAuth
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($request->session()->has('username') && $request->session()->has('password')) {
+		if ($request->session()->has('username')) {
 			return $next($request);
 		}
 		return redirect('/')->withError(['Please login with your credential']);
