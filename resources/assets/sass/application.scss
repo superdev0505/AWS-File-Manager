@@ -1,0 +1,59 @@
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Acme|Raleway:100,300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons");
+
+// Forms
+@import "forms";
+
+// Modals
+@import "modals";
+
+// Errors
+@import "validation";
+
+// Tables
+@import "tables";
+
+// Loaders
+@import "loaders";
+
+.breadcrumb {
+
+    margin-bottom: 0px !important;
+
+    background-color: transparent !important;
+
+}
+
+.main-panel>.content {
+
+    padding: 0 !important;
+
+}
+
+.card .form-check {
+
+    margin-top: 0 !important;
+
+}
+
+
+#show_process {
+
+    position: relative;
+
+    height: 40px;
+
+}
+
+
+.tooltip {
+
+    .arrow {
+        display: none!important;
+    }
+
+}

@@ -1,0 +1,59 @@
+// Variables
+@import "variables";
+
+.swal-button--success {
+
+    color: #fff;
+    background-color: #a5dc86;;
+
+}
+#save_btn {
+    position: absolute;
+    background-color: rgb(70, 165, 74); /* Green */
+    border: none;
+    width:100px;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15.5px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-transition-duration: 0.5s; /* Safari */
+    transition-duration: 0.5s;
+    cursor: pointer;
+    bottom: 31px;
+    right: 170px;
+}
+
+.modal a.close-modal{
+    position: absolute;
+    background-color: #8e928e;
+    border: none;
+    width: 100px;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15.5px;
+    font-weight:400;
+    /* margin-left: 39vw; */
+    border-radius: 8px;
+    /* -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    position: absolute;
+    cursor: pointer;
+    bottom: 31px;
+    right: 45px;
+}
+
+#save_btn:hover {
+    background-color: rgb(51, 133, 54);    
+}
+a.close-modal:hover {
+    background-color: #727472;
+}

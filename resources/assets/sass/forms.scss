@@ -1,0 +1,15 @@
+// Variables
+@import "variables";
+
+textarea {
+    resize: none;
+}
+
+
+select:read-only {
+
+    &:focus {
+        background-image: linear-gradient(0deg, #9c27b0 2px, rgba(156, 39, 176, 0) 0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0);
+    }
+
+}
