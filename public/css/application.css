@@ -11663,7 +11663,8 @@ select:read-only:focus {
   background-color: #a5dc86;
 }
 
-#save_btn {
+#save_btn,
+#save_new_btn {
   position: absolute;
   background-color: #46a54a;
   /* Green */
@@ -11711,7 +11712,8 @@ select:read-only:focus {
   right: 45px;
 }
 
-#save_btn:hover {
+#save_btn:hover,
+#save_new_btn:hover {
   background-color: #338536;
 }
 
@@ -11729,7 +11731,7 @@ a.close-modal:hover {
 }
 
 #content_list .td-actions {
-  width: 240px;
+  width: 280px;
 }
 
 #content_list .td-size {

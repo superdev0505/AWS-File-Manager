@@ -1350,7 +1350,7 @@ var showDirectories = function showDirectories(directoriesList) {
         $('#content_list tbody').append($('<tr />').append($('<td>').addClass('td-check').append($('<div />').addClass('form-check').append($('<label />').addClass('form-check-label').append($('<input />').addClass('form-check-input').attr({
             type: 'checkbox',
             value: directory.path
-        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left').append($('<i />').addClass('material-icons text-gray text-center').text('folder'))).append($('<td />').append($('<a />').addClass('text-gray change-dir').attr('href', directory.path).text(directory.name))).append($('<td />').addClass('url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
+        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left').append($('<i />').addClass('material-icons text-gray text-center').text('folder'))).append($('<td />')).append($('<td />').append($('<a />').addClass('text-gray change-dir').attr('href', directory.path).text(directory.name))).append($('<td />').addClass('url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
     });
 };
 
@@ -1361,7 +1361,7 @@ var showFiles = function showFiles(filesList) {
         $('#content_list tbody').append($('<tr />').append($('<td>').addClass('td-check').append($('<div />').addClass('form-check').append($('<label />').addClass('form-check-label').append($('<input />').addClass('form-check-input').attr({
             type: 'checkbox',
             value: file.path
-        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left').append($('<i />').addClass('material-icons text-gray text-center').text('attachment'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-danger btn-sm tooltip-btn delete-lock-btn').attr('id', 'btn_lock_delete').append($('<i />').addClass('material-icons').text('delete_forever'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn').attr('id', 'btn_lock_edit').append($('<i />').addClass('material-icons').text('lock'))).append($('<button />').addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn').attr('id', 'btn_edit').append($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
+        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left file-visibility').append($('<i />').addClass('material-icons text-gray text-center').text(file.public_status == 'public' ? 'cloud_queue' : 'cloud_off'))).append($('<td />').addClass('td-type text-left lock-status').append($('<i />').addClass('material-icons text-gray text-center').text(file.lock_status == 2 ? 'lock' : file.lock_status == 1 ? 'delete_forever' : 'lock_open'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-info btn-sm tooltip-btn visibility-btn').attr('id', 'btn_visibility').append($('<i />').addClass('material-icons').text(file.public_status == 'public' ? 'cloud_off' : 'cloud_queue'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn delete-lock-btn').attr('id', 'btn_lock_delete').append($('<i />').addClass('material-icons').text('delete_forever'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn').attr('id', 'btn_lock_edit').append($('<i />').addClass('material-icons').text('lock'))).append($('<button />').addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn').attr('id', 'btn_edit').append($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').append($('<i />').addClass('material-icons').text('question_answer')))));
     });
 };
 
@@ -1441,6 +1441,45 @@ var renameContent = function renameContent(path) {
         'path': path,
         'name': name
     })).then(function () {
+
+        stopProcess();
+
+        showMessage('Done.').then(function () {
+
+            var currentDirectory = $('#current_directory').data('path');
+
+            getContent(currentDirectory);
+        });
+    }).catch(function (error) {
+
+        stopProcess();
+
+        showError(error.response.data.message);
+    });
+};
+
+var createNewFile = function createNewFile(path, content) {
+    var form = $('#new_file_content_frm');
+
+    var name = $('input[name="name"]', form).val();
+
+    if (name.length === 0) {
+
+        showError('Provide correct name.');
+
+        return;
+    }
+    file = new Blob([content], { type: 'text/plain' });
+
+    var requestData = new FormData();
+
+    requestData.append('file', file);
+    requestData.append('path', path);
+    requestData.append('name', name);
+
+    startProcess();
+
+    axios.post('/api/new', requestData).then(function () {
 
         stopProcess();
 
@@ -1593,6 +1632,52 @@ $(document).ready(function () {
         $('input[name="local_file"]').val($(this)[0].files.length + ' files selected');
     });
 
+    $(document).on('click', 'input[name="local_file"]', function (event) {
+
+        event.preventDefault();
+
+        $('#local_file').trigger('click');
+    });
+
+    /**
+     * Change to public / private
+     */
+    $(document).on('click', '.visibility-btn', function (event) {
+        event.preventDefault();
+        var row = $(this).parents('tr');
+
+        var path = row.find('input[type="checkbox"]').val();
+
+        var button = $(this);
+        file_status = $('i', button).text();
+
+        url = file_status == 'cloud_off' ? '/api/make-private' : '/api/make-public';
+
+        showSpinner(button);
+
+        axios.get(url, {
+            params: {
+                path: path
+            }
+        }).then(function (response) {
+
+            hideSpinner(button);
+            showMessage(response.data.message);
+
+            $('.file-visibility i', row).text(file_status);
+            $('i', button).text(file_status == 'cloud_off' ? 'cloud_queue' : 'cloud_off');
+        }).catch(function (error) {
+
+            hideSpinner(button);
+
+            showError(error.response.data.message);
+        });
+    });
+
+    /**
+     * Lock file
+     */
+
     $(document).on('click', '.delete-lock-btn', function (event) {
         event.preventDefault();
         var row = $(this).parents('tr');
@@ -1610,8 +1695,8 @@ $(document).ready(function () {
         }).then(function (response) {
 
             hideSpinner(button);
-            console.log(response);
             showMessage(response.data.message);
+            if ($('.lock-status i', row).text() == 'lock_open') $('.lock-status i', row).text('delete_forever');
         }).catch(function (error) {
 
             hideSpinner(button);
@@ -1637,21 +1722,14 @@ $(document).ready(function () {
         }).then(function (response) {
 
             hideSpinner(button);
-            console.log(response);
             showMessage(response.data.message);
+            if ($('.lock-status i', row).text() != 'lock') $('.lock-status i', row).text('lock');
         }).catch(function (error) {
 
             hideSpinner(button);
 
             showError(error.response.data.message);
         });
-    });
-
-    $(document).on('click', 'input[name="local_file"]', function (event) {
-
-        event.preventDefault();
-
-        $('#local_file').trigger('click');
     });
 
     /**
@@ -1781,7 +1859,7 @@ $(document).ready(function () {
         window.open('/api/download?path=' + path, '_blanc');
     });
 
-    $(document).on('submit', '#rename_content_frm, #make_directory_frm, #upload_files_frm', function (event) {
+    $(document).on('submit', '#rename_content_frm, #make_directory_frm, #upload_files_frm', '#new_file_content_frm', function (event) {
 
         event.preventDefault();
 
@@ -2002,6 +2080,56 @@ $(document).ready(function () {
 
             showError(error.response.data.message);
         });
+    });
+
+    $(document).on('click', '#save_new_btn', function (event) {
+        var path = $('#current_directory').data('path');
+        var content = window.editor.getNativeEditorValue();
+        $(this).next().click();
+        var newFileNameForm = $('<form />').attr('id', 'new_file_content_frm').append($('<div />').addClass('form-group').append($('<input />').addClass('form-control').attr({
+            'type': 'text',
+            'name': 'name',
+            'autocomplete': 'off',
+            'placeholder': 'New name',
+            'autofocus': true
+        }).val('')));
+
+        showEdit('New File Name', newFileNameForm.get(0)).then(function (value) {
+
+            if (value) {
+                createNewFile(path, content);
+            }
+        });
+    });
+
+    $(document).on('click', '#create_new_file_btn', function (event) {
+        event.preventDefault();
+        $('#edit').html('<div id="editor"></div><button id="save_new_btn">Save</button>');
+        $('#editor').html('');
+        $('#edit').modal();
+        var editor = new Jodit('#editor', {
+            textIcons: false,
+            iframe: false,
+            iframeStyle: '*,.jodit_wysiwyg {color:red;}',
+            height: 460,
+            defaultMode: Jodit.MODE_WYSIWYG,
+            observer: {
+                timeout: 100
+            },
+            uploader: {
+                url: 'https://xdsoft.net/jodit/connector/index.php?action=fileUpload'
+            },
+            filebrowser: {
+                ajax: {
+                    url: 'https://xdsoft.net/jodit/connector/index.php'
+                }
+            },
+            commandToHotkeys: {
+                'openreplacedialog': 'ctrl+p'
+            }
+        });
+
+        window.editor = editor;
     });
 });
 

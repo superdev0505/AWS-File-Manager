@@ -24,7 +24,7 @@
 
 								<tr>
 
-									<th id="current_directory" colspan="7">
+									<th id="current_directory" colspan="8">
 
 										<div class="float-left">
 											Current directory: <strong id="directory_name"></strong>
@@ -57,7 +57,7 @@
 
 									</th>
 
-									<th colspan="6">
+									<th colspan="7">
 
 										<div class="navbar-wrapper">
 

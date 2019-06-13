@@ -64,7 +64,7 @@
 
 				<li class="nav-item">
 					<a id="make_directory_btn" class="nav-link" href="">
-						<i class="material-icons">add</i>
+						<i class="material-icons">create_new_folder</i>
 						<p>Create</p>
 					</a>
 				</li>
@@ -74,6 +74,13 @@
 						<i class="material-icons">attachment</i>
 						<p>File</p>
 					</div>
+				</li>
+
+				<li class="nav-item">
+					<a id="create_new_file_btn" class="nav-link" href="">
+						<i class="material-icons">add</i>
+						<p>Create</p>
+					</a>
 				</li>
 
 				<li class="nav-item">

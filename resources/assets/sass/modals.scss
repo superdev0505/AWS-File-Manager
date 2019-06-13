@@ -7,7 +7,7 @@
     background-color: #a5dc86;;
 
 }
-#save_btn {
+#save_btn, #save_new_btn {
     position: absolute;
     background-color: rgb(70, 165, 74); /* Green */
     border: none;
@@ -51,7 +51,7 @@
     right: 45px;
 }
 
-#save_btn:hover {
+#save_btn:hover, #save_new_btn:hover  {
     background-color: rgb(51, 133, 54);    
 }
 a.close-modal:hover {

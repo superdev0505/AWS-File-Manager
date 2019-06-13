@@ -11,9 +11,11 @@ use App\Http\Requests\ContentSave;
 use App\Http\Requests\ContentRemove;
 use App\Http\Requests\ContentEdit;
 use App\Http\Requests\ContentRename;
+use App\Http\Requests\ChangeFileState;
 use App\Http\Requests\DirectoryMake;
 use App\Http\Requests\FileDownload;
 use App\Http\Requests\FileUpload;
+use App\Http\Requests\NewFile;
 use App\Http\Requests\LockRequest;
 use App\Models\StorageService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -101,6 +103,42 @@ class ApiController extends Controller
 	{
 
 		$result = $this->storageService->save($request);
+		$return_val = array('result' => $result);
+		return response()->json(
+			$return_val
+		);
+
+	}
+
+	/**
+	 * makePublic
+	 *
+	 * @param ChangeFileState $request
+	 *
+	 * @return JSON
+	 */
+	public function makePublic(ChangeFileState $request)
+	{
+
+		$result = $this->storageService->makePublic($request);
+		$return_val = array('result' => $result);
+		return response()->json(
+			$return_val
+		);
+
+	}
+
+	/**
+	 * makePrivate
+	 *
+	 * @param ChangeFileState $request
+	 *
+	 * @return JSON
+	 */
+	public function makePrivate(ChangeFileState $request)
+	{
+
+		$result = $this->storageService->makePrivate($request);
 		$return_val = array('result' => $result);
 		return response()->json(
 			$return_val
@@ -211,6 +249,25 @@ class ApiController extends Controller
 	{
 
 		$this->storageService->upload($request);
+
+		return response()->json(
+			[]
+		);
+
+	}
+
+	/**
+	 * NewFile
+	 *
+	 * @param FileUpload $request
+	 *
+	 * @return JSON
+	 * @throws StorageException
+	 */
+	public function new(NewFile $request)
+	{
+
+		$this->storageService->new($request);
 
 		return response()->json(
 			[]

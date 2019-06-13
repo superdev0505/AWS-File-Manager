@@ -14,7 +14,9 @@ use App\Http\Requests\ContentRename;
 use App\Http\Requests\DirectoryMake;
 use App\Http\Requests\FileDownload;
 use App\Http\Requests\FileUpload;
+use App\Http\Requests\NewFile;
 use App\Http\Requests\LockRequest;
+use App\Http\Requests\ChangeFileState;
 use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
@@ -164,6 +166,26 @@ class StorageService
 
 	}
 
+	public function makePublic(ChangeFileState $request)
+	{
+		$path = $request->path;
+		$this->checkExists($path);
+		if ($this->isFile($path)) {
+			$success = $this->storage->setVisibility($path, 'public');
+			return $success;
+		}
+	}
+
+	public function makePrivate(ChangeFileState $request)
+	{
+		$path = $request->path;
+		$this->checkExists($path);
+		if ($this->isFile($path)) {
+			$success = $this->storage->setVisibility($path, 'private');
+			return $success;
+		}
+	}
+
 	/**
 	 * Download file
 	 *
@@ -210,6 +232,34 @@ class StorageService
 			$this->uploadFile($file, $path);
 
 		}
+
+	}
+
+	/**
+	 * New file
+	 *
+	 * @param NewFile $request
+	 *
+	 * @return void
+	 * @throws StorageException
+	 */
+	public function new(NewFile $request)
+	{
+
+
+
+		$file = $request->file;
+		$name = $request->name;
+		$path = $request->path;
+
+		$user = session()->get('username', '');
+	   	$this->log($user, $path, 'new');
+
+	   	$sourcePath = $path . '/' . $file->getClientOriginalName();
+
+		$uploadFileName = $this->getCopyFilePath($sourcePath, $path, $name);
+
+		$this->storage->putFileAs('.', $file, $uploadFileName);
 
 	}
 
@@ -483,6 +533,25 @@ class StorageService
 	}
 
 	/**
+	 * Get Lock status
+	 *
+	 * @param string $path
+	 *
+	 * @return status
+	 */
+	private function getLockStatus($path) {
+		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
+		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+
+		$lockedDeleteFileInfoPath = env('DELETE_LOCK_PATH');
+		$lockedDeleteFiles = $this->storage->get($lockedDeleteFileInfoPath);
+
+		if (strpos($lockedEditFiles, $path)) return 2;
+		else if (strpos($lockedDeleteFiles, $path)) return 1;
+		else return 0;
+	}
+
+	/**
 	 * Get files list for directory
 	 *
 	 * @param string $directory
@@ -503,6 +572,8 @@ class StorageService
 			$filesList[] = [
 				'name' => $fileInfo['basename'],
 				'path' => $s3File,
+				'public_status' => $this->storage->getVisibility($s3File),
+				'lock_status' => $this->getLockStatus($s3File)
 			];
 
 		}
@@ -532,6 +603,8 @@ class StorageService
 			$filesList[] = [
 				'name' => $fileInfo['basename'],
 				'path' => $s3File,
+				'public_status' => $this->storage->getVisibility($s3File),
+				'lock_status' => $this->getLockStatus($s3File)
 			];
 
 		}
@@ -883,12 +956,12 @@ class StorageService
 	 *
 	 * @return string
 	 */
-	private function getCopyFilePath($sourcePath, $destinationPath)
+	private function getCopyFilePath($sourcePath, $destinationPath, $filename = null)
 	{
 
 		$pathInfo = $this->pathInfo($sourcePath);
 
-		$newFilePath = $destinationPath . '/' . $pathInfo['basename'];
+		$newFilePath = $destinationPath . '/' . $filename == null ? $pathInfo['basename'] : $filename;
 
 		$index = 1;
 
