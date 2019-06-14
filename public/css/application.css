@@ -11829,6 +11829,13 @@ a.close-modal:hover {
 
 .main-panel > .content {
   padding: 0 !important;
+  width: calc(100vw - 280px);
+}
+
+.wrapper {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
 }
 
 .card .form-check {
@@ -11840,7 +11847,16 @@ a.close-modal:hover {
   height: 40px;
 }
 
-.tooltip .arrow {
-  display: none !important;
+.sidebar {
+  -webkit-box-flex: 0 !important;
+      -ms-flex: 0 0 260px !important;
+          flex: 0 0 260px !important;
+  position: relative !important;
+}
+
+.main-panel {
+  -webkit-box-flex: 0 !important;
+      -ms-flex: 0 0 auto !important;
+          flex: 0 0 auto !important;
 }
 

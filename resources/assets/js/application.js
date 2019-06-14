@@ -31,6 +31,9 @@ const getContent = (path = '.') => {
                 showDirectories(response.data.directories);
                 showFiles(response.data.files);
 
+                $('.tooltip-btn').tooltip();
+
+
             }
         )
         .catch(
@@ -93,6 +96,12 @@ const showDirectories = directoriesList => {
                     )
                     .append(
                         $('<td />')
+                            .addClass('td-type text-left')
+                            .append(
+                                $('<i />')
+                                    .addClass('material-icons text-gray text-center')
+                                    .text(directory.locked == 'lock' ? 'lock' : '')
+                            )
                     )
                     .append(
                         $('<td />')
@@ -125,6 +134,9 @@ const showDirectories = directoriesList => {
                                 $('<button />')
                                     .addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn')
                                     .attr('type', 'button')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Show Info')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -135,6 +147,9 @@ const showDirectories = directoriesList => {
                                 $('<button />')
                                     .addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn')
                                     .attr('type', 'button')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Rename')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -230,6 +245,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-info btn-sm tooltip-btn visibility-btn')
                                     .attr('id', 'btn_visibility')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', file.public_status == 'public' ? 'Make Private' : 'Make Public')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -240,6 +258,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-danger btn-sm ml-2 tooltip-btn delete-lock-btn')
                                     .attr('id', 'btn_lock_delete')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Lock Delete')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -250,6 +271,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn')
                                     .attr('id', 'btn_lock_edit')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Lock Edit')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -260,6 +284,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn')
                                     .attr('id', 'btn_edit')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Edit')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -270,6 +297,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn')
                                     .attr('type', 'button')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Download')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -280,6 +310,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn')
                                     .attr('type', 'button')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Show Info')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')
@@ -290,6 +323,9 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn')
                                     .attr('type', 'button')
+                                    .attr('data-toggle', 'tooltip')
+                                    .attr('data-placement', 'top')
+                                    .attr('title', 'Rename')
                                     .append(
                                         $('<i />')
                                             .addClass('material-icons')

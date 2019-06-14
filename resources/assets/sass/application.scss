@@ -31,7 +31,12 @@
 .main-panel>.content {
 
     padding: 0 !important;
+    width: calc(100vw - 280px);
 
+}
+
+.wrapper {
+	display: flex !important;
 }
 
 .card .form-check {
@@ -49,11 +54,19 @@
 
 }
 
+.sidebar {
+	flex: 0 0 260px !important;
+	position: relative !important;
+}
+
+
+
+.main-panel {
+	flex: 0 0 auto !important;
+}
 
 .tooltip {
 
-    .arrow {
-        display: none!important;
-    }
+    
 
 }

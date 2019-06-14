@@ -486,7 +486,10 @@ class StorageService
 
 		$s3Directories = $this->storage->directories($directory);
 
+		$default_lock_path = 'User_manager/ Logging_folder/ Backup_folder/ Locked_data/';
+
 		$directoriesList = [];
+		$role = session()->get('role', '');
 
 		foreach ($s3Directories as $s3Directory) {
 
@@ -495,6 +498,7 @@ class StorageService
 			$directoriesList[] = [
 				'name' => $dirInfo['basename'],
 				'path' => $s3Directory,
+				'locked' => $role != 'admin' && strpos($default_lock_path, $s3Directory) ? 'lock' : 'unlock',
 			];
 
 		}
