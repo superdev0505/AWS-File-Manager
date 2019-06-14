@@ -498,7 +498,7 @@ class StorageService
 			$directoriesList[] = [
 				'name' => $dirInfo['basename'],
 				'path' => $s3Directory,
-				'locked' => $role != 'admin' && strpos($default_lock_path, $s3Directory) ? 'lock' : 'unlock',
+				'locked' => $role != 'admin' && strpos($default_lock_path, $s3Directory) != FALSE ? 'lock' : 'unlock',
 			];
 
 		}
