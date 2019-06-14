@@ -1267,7 +1267,7 @@ $(document).ready(function () {
         content = window.editor.getNativeEditorValue();
         $(this).next().click();
         
-
+        startProcess();
         $.ajax({
             url: '/api/save',
             type: 'POST',
@@ -1275,10 +1275,20 @@ $(document).ready(function () {
                 path: path,
                 content: content
             },
-            sucess: function(data){
-                alert(data);
+        }).then(
+            response => {
+                stopProcess();
+                showMessage(response.data.message);
             }
-        })
+        ).catch(
+            error => {
+
+                stopProcess();
+
+                showError(error.response.data.message);
+
+            }
+        )
     });
 
     $(document).on('click', '#btn_edit', function (event) {

@@ -2018,16 +2018,22 @@ $(document).ready(function () {
         content = window.editor.getNativeEditorValue();
         $(this).next().click();
 
+        startProcess();
         $.ajax({
             url: '/api/save',
             type: 'POST',
             data: {
                 path: path,
                 content: content
-            },
-            sucess: function sucess(data) {
-                alert(data);
             }
+        }).then(function (response) {
+            stopProcess();
+            showMessage(response.data.message);
+        }).catch(function (error) {
+
+            stopProcess();
+
+            showError(error.response.data.message);
         });
     });
 

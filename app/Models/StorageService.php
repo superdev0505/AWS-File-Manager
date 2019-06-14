@@ -828,7 +828,7 @@ class StorageService
 
 		} catch (\Exception $e) {
 
-			throw new StorageException('Can not copy files.');
+			throw new StorageException('Can not copy files.' . $e);
 
 		}
 
@@ -964,8 +964,9 @@ class StorageService
 	{
 
 		$pathInfo = $this->pathInfo($sourcePath);
+		$newFilename = $filename == null ? $pathInfo['basename'] : $filename;
 
-		$newFilePath = $destinationPath . '/' . $filename == null ? $pathInfo['basename'] : $filename;
+		$newFilePath = $destinationPath . '/' . $newFilename;
 
 		$index = 1;
 
