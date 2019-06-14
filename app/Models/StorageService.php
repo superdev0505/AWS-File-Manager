@@ -717,7 +717,7 @@ class StorageService
 	 */
 	private function checkLocked($path)
 	{
-		$default_list = 'Backup_folder/ Logging_folder/ User_management/ Locked_data/';
+		$default_list = 'Backup_folder/ Logging_folder/ User_manager/ Locked_data/';
 		$role = session()->get('role', '');
 		if ($role != 'admin') {
 			if(strpos($default_list, $path) != FALSE)
