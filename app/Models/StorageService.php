@@ -486,7 +486,7 @@ class StorageService
 
 		$s3Directories = $this->storage->directories($directory);
 
-		$default_lock_path = 'User_manager/ Logging_folder/ Backup_folder/ Locked_data/';
+		$default_lock_path = ' User_manager/ Logging_folder/ Backup_folder/ Locked_data/';
 
 		$directoriesList = [];
 		$role = session()->get('role', '');
@@ -546,9 +546,11 @@ class StorageService
 	private function getLockStatus($path) {
 		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
 		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+		$lockedEditFiles = ' '. $lockedEditFiles;
 
 		$lockedDeleteFileInfoPath = env('DELETE_LOCK_PATH');
 		$lockedDeleteFiles = $this->storage->get($lockedDeleteFileInfoPath);
+		$lockedDeleteFiles = ' '. $lockedDeleteFiles;
 
 		if (strpos($lockedEditFiles, $path)) return 2;
 		else if (strpos($lockedDeleteFiles, $path)) return 1;
@@ -717,7 +719,7 @@ class StorageService
 	 */
 	private function checkLocked($path)
 	{
-		$default_list = 'Backup_folder/ Logging_folder/ User_manager/ Locked_data/';
+		$default_list = ' Backup_folder/ Logging_folder/ User_manager/ Locked_data/';
 		$role = session()->get('role', '');
 		if ($role != 'admin') {
 			if(strpos($default_list, $path) != FALSE)
@@ -739,9 +741,11 @@ class StorageService
 
 		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
 		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+		$lockedEditFiles = ' '.$lockedEditFiles;
 
 		$lockedDeleteFileInfoPath = env('DELETE_LOCK_PATH');
 		$lockedDeleteFiles = $this->storage->get($lockedDeleteFileInfoPath);
+		$lockedDeleteFiles = ' '.$lockedDeleteFiles;
 
 		if ($role == 'user') {
 			if(strpos($lockedEditFiles, $path) != FALSE || strpos($lockedDeleteFiles, $path) != FALSE)
@@ -763,6 +767,7 @@ class StorageService
 
 		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
 		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
+		$lockedEditFiles = ' '.$lockedEditFiles;
 
 		if ($role == 'user') {
 			if(strpos($lockedEditFiles, $path) != FALSE)
