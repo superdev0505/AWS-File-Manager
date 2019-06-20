@@ -43,8 +43,13 @@ class UserController extends BaseController
             session()->put('role', $result);
             return redirect('/browser');
         }
-        
+    }
 
+    function logout(Request $request) {
+        $request->session()->forget('username');
+        session()->forget('username');
+        session()->forget('role');
+        return redirect('/');
     }
     // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

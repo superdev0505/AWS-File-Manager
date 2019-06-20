@@ -6,4 +6,5 @@ Route::post('/login', 'UserController@login');
 Route::group(['middleware' => ['auth']], function () {
     //
 	Route::view('/browser','index.browser');
+	Route::get('/logout','UserController@logout');
 });

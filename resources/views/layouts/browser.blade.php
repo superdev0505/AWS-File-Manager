@@ -124,6 +124,17 @@
 						<p>Remove</p>
 					</a>
 				</li>
+				<li>
+					<br>
+				</li>
+				<li class="nav-item">
+					<div class="font-weight-bold">
+						<a class="nav-link" href="{{url('/logout')}}">
+							<i class="material-icons">exit_to_app</i>
+							<p>Logout</p>
+						</a>
+					</div>
+				</li>
 
 			</ul>
 

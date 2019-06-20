@@ -159,8 +159,8 @@ class StorageService
 	   	$content = $request->content;
 	   	$this->checkExists($path);
 	   	$user = session()->get('username', '');
-	   	$this->log($user, $path, 'edit');
-	   	$this->backup($path);
+	   	$this->backup($user, $path, 'edit');
+	   	// $this->backup($path);
 	   	$success = $this->storage->put($path, $content);
 	   	return $success;
 
@@ -201,7 +201,7 @@ class StorageService
 
 		$this->checkExists($path);
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'download');
+	   	// $this->log($user, $path, 'download');
 
 		return $this->storage->download($path);
 
@@ -226,7 +226,7 @@ class StorageService
 			throw new StorageException('Files list is empty.');
 		}
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'upload');
+	   	// $this->log($user, $path, 'upload');
 		foreach ($filesList as $file) {
 
 			$this->uploadFile($file, $path);
@@ -253,7 +253,7 @@ class StorageService
 		$path = $request->path;
 
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'new');
+	   	// $this->log($user, $path, 'new');
 
 	   	$sourcePath = $path . '/' . $file->getClientOriginalName();
 
@@ -283,7 +283,7 @@ class StorageService
 
 		$this->createDirectory($sourcePath);
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'make directory');
+	   	// $this->log($user, $path, 'make directory');
 	}
 
 	/**
@@ -308,9 +308,10 @@ class StorageService
 		$this->checkUnique($destinationPath);
 
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'rename');
+	   	
 
-	   	$this->backup($sourcePath);
+	   	// $this->backup($sourcePath);
+		$this->backup($user, $path, 'rename');
 
 		if ($this->isFile($sourcePath)) {
 
@@ -371,7 +372,7 @@ class StorageService
 			}
 		}
 		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'paste');
+	   	// $this->log($user, $path, 'paste');
 
 	}
 
@@ -386,12 +387,14 @@ class StorageService
 	 */
 	public function remove(ContentRemove $request)
 	{
+		$user = session()->get('username', '');
+	   	// $this->log($user, $path, 'remove');
 
 		$pathList = $request->path_list;
 
 		foreach ($pathList as $path) {
 			$this->checkLockedDelete($path);
-			$this->backup($path);
+			$this->backup($user, $path, 'remove');
 			if ($this->isFile($path)) {
 
 				$this->removeFile($path);
@@ -407,8 +410,7 @@ class StorageService
 			}
 
 		}
-		$user = session()->get('username', '');
-	   	$this->log($user, $path, 'remove');
+		
 
 	}
 
@@ -486,7 +488,7 @@ class StorageService
 
 		$s3Directories = $this->storage->directories($directory);
 
-		$default_lock_path = ' User_manager/ Logging_folder/ Backup_folder/ Locked_data/';
+		$default_lock_path = ' User_manager/ Logging_folder/ Locked_data/';
 
 		$directoriesList = [];
 		$role = session()->get('role', '');
@@ -719,7 +721,7 @@ class StorageService
 	 */
 	private function checkLocked($path)
 	{
-		$default_list = ' Backup_folder/ Logging_folder/ User_manager/ Locked_data/';
+		$default_list = ' Logging_folder/ User_manager/ Locked_data/';
 		$role = session()->get('role', '');
 		if ($role != 'admin') {
 			if(strpos($default_list, $path) != FALSE)
@@ -1178,11 +1180,13 @@ class StorageService
 	 * @return void
 	 */
 
-	private function backup($path) {
-		$miliseconds = round(microtime(true) * 1000);
+	private function backup($user, $path, $event) {
+		$date = date('Y-m-d H-i-s');
+		$info = $this->pathinfo($path);
+		$log = $user . '-' . $info['basename'] . '-' . $event . '(' . $date . ')';
 
-		$backup_path = env('BACKUP_PATH', '/');
-		$destinationPath = $backup_path . $path . $miliseconds;
+		$backup_path = env('LOG_PATH', '/');
+		$destinationPath = $backup_path . $log;
 		$this->copy($path, $destinationPath);
 	}
 
