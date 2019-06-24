@@ -741,6 +741,8 @@ class StorageService
 	{
 		$role = session()->get('role', '');
 
+		$this->checkLocked($path);
+
 		$lockedEditFileInfoPath = env('EDIT_LOCK_PATH');
 		$lockedEditFiles = $this->storage->get($lockedEditFileInfoPath);
 		$lockedEditFiles = ' '.$lockedEditFiles;
