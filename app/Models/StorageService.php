@@ -168,20 +168,24 @@ class StorageService
 
 	public function makePublic(ChangeFileState $request)
 	{
+		$user = session()->get('username', '');
 		$path = $request->path;
 		$this->checkExists($path);
 		if ($this->isFile($path)) {
 			$success = $this->storage->setVisibility($path, 'public');
+			$this->backup($user, $path, 'makePublic');
 			return $success;
 		}
 	}
 
 	public function makePrivate(ChangeFileState $request)
 	{
+		$user = session()->get('username', '');
 		$path = $request->path;
 		$this->checkExists($path);
 		if ($this->isFile($path)) {
 			$success = $this->storage->setVisibility($path, 'private');
+			$this->backup($user, $path, 'makePrivate');
 			return $success;
 		}
 	}
@@ -202,6 +206,7 @@ class StorageService
 		$this->checkExists($path);
 		$user = session()->get('username', '');
 	   	// $this->log($user, $path, 'download');
+	   	$this->backup($user, $path, 'download');
 
 		return $this->storage->download($path);
 
@@ -217,6 +222,7 @@ class StorageService
 	 */
 	public function upload(FileUpload $request)
 	{
+		$user = session()->get('username', '');
 
 		$filesList = $request->files_list;
 
@@ -246,7 +252,7 @@ class StorageService
 	public function new(NewFile $request)
 	{
 
-
+		$user = session()->get('username', '');
 
 		$file = $request->file;
 		$name = $request->name;
@@ -261,6 +267,8 @@ class StorageService
 
 		$this->storage->putFileAs('.', $file, $uploadFileName);
 
+		$this->backup($user, $uploadFileName, 'createFile');
+
 	}
 
 	/**
@@ -273,6 +281,7 @@ class StorageService
 	 */
 	public function makeDirectory(DirectoryMake $request)
 	{
+		$user = session()->get('username', '');
 
 		$parentDirectory = $request->path;
 		$directoryName = $request->name;
@@ -284,6 +293,7 @@ class StorageService
 		$this->createDirectory($sourcePath);
 		$user = session()->get('username', '');
 	   	// $this->log($user, $path, 'make directory');
+	   	$this->backup($user, $sourcePath, 'makeDirectory');
 	}
 
 	/**
@@ -350,6 +360,7 @@ class StorageService
 	 */
 	public function paste(ContentPaste $request)
 	{
+		$user = session()->get('username', '');
 
 		$sourcePathList = $request->source_path_list;
 		$destinationPath = $request->destination_path;
@@ -363,10 +374,11 @@ class StorageService
 
 			if ($operation === 'copy') {
 
+				$this->backup($user, $sourcePath, 'copy');
 				$this->copy($sourcePath, $destinationPath);
 
 			} else {
-
+				$this->backup($user, $sourcePath, 'cut');
 				$this->move($sourcePath, $destinationPath);
 
 			}
@@ -1062,6 +1074,7 @@ class StorageService
 	 */
 	private function uploadFile($file, $path)
 	{
+		$user = session()->get('username', '');
 
 		$sourcePath = $path . '/' . $file->getClientOriginalName();
 
@@ -1069,6 +1082,7 @@ class StorageService
 
 		$this->storage->putFileAs('.', $file, $uploadFileName);
 
+		$this->backup($user, $uploadFileName, 'upload');
 	}
 
 	/**
