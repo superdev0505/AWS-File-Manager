@@ -166,8 +166,10 @@ class StorageService
 	   	$this->checkExists($path);
 	   	$user = session()->get('username', '');
 	   	$this->backup($user, $path, 'edit');
+	   	$visibility = $this->storage->getVisibility($path);
 	   	// $this->backup($path);
 	   	$success = $this->storage->put($path, $content);
+	   	$this->storage->setVisibility($path, $visibility);
 	   	return $success;
 
 	}
