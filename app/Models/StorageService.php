@@ -54,7 +54,7 @@ class StorageService
 			$userData = explode("<br>", substr($content, $pos))[0];
 			$role = str_replace($userInfo.',', "", $userData);
 			$role = trim($role);
-			$this->backup($user, '', 'login');
+			$this->backup($username, '', 'login');
 			return $role;
 		}
 	}
