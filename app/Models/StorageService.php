@@ -54,23 +54,28 @@ class StorageService
 			$userData = explode("<br>", substr($content, $pos))[0];
 			$role = str_replace($userInfo.',', "", $userData);
 			$role = trim($role);
+			$this->backup($user, '', 'login');
 			return $role;
 		}
 	}
 
 	public function lockDelete(LockRequest $request) {
+		$user = session()->get('username', '');
 		$path = $request->path;
 		$lockDeleteInfoPath = env('DELETE_LOCK_PATH', '/');
 		if ($this->isFile($lockDeleteInfoPath)) {
 			$this->storage->append($lockDeleteInfoPath, $path);
+			$this->backup($user, $path, 'lockDelete');
 		}
 
 	}
 	public function lockEdit(LockRequest $request) {
+		$user = session()->get('username', '');
 		$path = $request->path;
 		$lockEditInfoPath = env('EDIT_LOCK_PATH', '/');
 		if ($this->isFile($lockEditInfoPath)) {
 			$this->storage->append($lockEditInfoPath, $path);
+			$this->backup($user, $path, 'lockEdit');
 		}
 
 	}
@@ -1198,12 +1203,23 @@ class StorageService
 
 	private function backup($user, $path, $event) {
 		$date = date('Y-m-d H-i-s');
-		$info = $this->pathinfo($path);
-		$log = $user . '-' . $info['basename'] . '-' . $event . '(' . $date . ')';
-
 		$backup_path = env('LOG_PATH', '/');
-		$destinationPath = $backup_path . $log;
-		$this->copy($path, $destinationPath);
+
+		if ($event == 'login') {
+			$log = $user . '-' . $event . '(' . $date . ')';
+			$destinationPath = $backup_path . $log;
+			$this->createDirectory($destinationPath);
+		} else if ($event == 'makePrivate' || $event == 'makePublic' || $event == 'lockDelete' || $event == 'lockEdit') {
+			$info = $this->pathinfo($path);
+			$log = $user . '-' . $info['basename'] . '-' . $event . '(' . $date . ')';
+			$destinationPath = $backup_path . $log;
+			$this->createDirectory($destinationPath);
+		} else {
+			$info = $this->pathinfo($path);
+			$log = $user . '-' . $info['basename'] . '-' . $event . '(' . $date . ')';
+			$destinationPath = $backup_path . $log;
+			$this->copy($path, $destinationPath);
+		}
 	}
 
 }
