@@ -957,7 +957,7 @@ $(document).ready(function () {
                 response => {
 
                     hideSpinner(button);
-                    url = 'https://s3.amazonaws.com/'+response.data.bucket+'/'+path;
+                    url = response.data.url;
                     row.find('.td-url').html('<a href="'+url+'">'+url+'</a>');
                     row.find('.td-size').text(response.data.size);
                     row.find('.td-modified').text(response.data.modified);

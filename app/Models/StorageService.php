@@ -131,7 +131,7 @@ class StorageService
 		$lastModified = $this->storage->lastModified($path);
 
 		return  [
-			'bucket' => env('AWS_BUCKET'),
+			'url' => $this->url($path),
 			'size' => $size,
 			'modified' => $lastModified !== false ? date('d-m-Y H:i:s', $this->storage->lastModified($path)) : '---'
 		];
