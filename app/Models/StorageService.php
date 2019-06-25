@@ -131,7 +131,7 @@ class StorageService
 		$lastModified = $this->storage->lastModified($path);
 
 		return  [
-			'url' => $this->url($path),
+			'url' => $this->storage->url($path),
 			'size' => $size,
 			'modified' => $lastModified !== false ? date('d-m-Y H:i:s', $this->storage->lastModified($path)) : '---'
 		];
