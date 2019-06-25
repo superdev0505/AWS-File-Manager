@@ -1815,7 +1815,7 @@ $(document).ready(function () {
         }).then(function (response) {
 
             hideSpinner(button);
-            url = 'https://s3.amazonaws.com/r.lake/' + path;
+            url = 'https://s3.amazonaws.com/' + response.data.bucket + '/' + path;
             row.find('.td-url').html('<a href="' + url + '">' + url + '</a>');
             row.find('.td-size').text(response.data.size);
             row.find('.td-modified').text(response.data.modified);
