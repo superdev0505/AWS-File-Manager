@@ -759,9 +759,9 @@ class StorageService
 		$role = session()->get('role', '');
 		$default_list = ' Logging_folder/ User_manager/ Locked_data/';
 
-		if (strpos($default_list, $path) != FALSE) {
+		if (strpos($default_list, $path) !== false) {
 			throw new StorageException("You don't have permission to this path");
-		} else if (strpos($path, 'Logging_folder/') != FALSE || strpos($path, 'User_manager/') != FALSE || strpos($path, 'Locked_data/') != FALSE) {
+		} else if (strpos($path, 'Logging_folder/') !== false || strpos($path, 'User_manager/') !== false || strpos($path, 'Locked_data/') !== false) {
 			throw new StorageException("You don't have permission to this path");
 		}
 
