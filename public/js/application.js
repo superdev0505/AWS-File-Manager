@@ -2059,7 +2059,8 @@ $(document).ready(function () {
             $('#editor').html(response.data.content);
             $('#edit').modal({
                 backdrop: 'static',
-                keypress: false
+                keypress: false,
+                show: true
             });
             $('#modal_path').val(path);
             var editor = new Jodit('#editor', {
@@ -2119,7 +2120,8 @@ $(document).ready(function () {
         $('#editor').html('');
         $('#edit').modal({
             backdrop: 'static',
-            keypress: false
+            keypress: false,
+            show: true
         });
         var editor = new Jodit('#editor', {
             textIcons: false,
