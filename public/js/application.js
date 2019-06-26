@@ -1772,7 +1772,7 @@ $(document).ready(function () {
 
         $('#content_list tbody tr').each(function () {
 
-            var fileName = $('td:eq(2)', $(this)).text();
+            var fileName = $('td:eq(3)', $(this)).text();
 
             var notFound = fileName.toLowerCase().indexOf(search) === -1;
 
@@ -1834,7 +1834,7 @@ $(document).ready(function () {
         var row = $(this).parents('tr');
 
         var path = row.find('input[type="checkbox"]').val();
-        var oldName = row.find('td:eq(2)').text();
+        var oldName = row.find('td:eq(3)').text();
 
         var renameContentForm = $('<form />').attr('id', 'rename_content_frm').append($('<div />').addClass('form-group').append($('<input />').addClass('form-control').attr({
             'type': 'text',

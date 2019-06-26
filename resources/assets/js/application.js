@@ -905,7 +905,7 @@ $(document).ready(function () {
 
         $('#content_list tbody tr').each(function () {
 
-            const fileName = $('td:eq(2)', $(this)).text();
+            const fileName = $('td:eq(3)', $(this)).text();
 
             const notFound = (fileName.toLowerCase().indexOf(search) === -1);
 
@@ -984,7 +984,7 @@ $(document).ready(function () {
         const row = $(this).parents('tr');
 
         const path = row.find('input[type="checkbox"]').val();
-        const oldName = row.find('td:eq(2)').text();
+        const oldName = row.find('td:eq(3)').text();
 
         const renameContentForm = $('<form />')
             .attr('id', 'rename_content_frm')

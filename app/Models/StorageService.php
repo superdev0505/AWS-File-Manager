@@ -131,7 +131,7 @@ class StorageService
 		$lastModified = $this->storage->lastModified($path);
 
 		return  [
-			'url' => $this->storage->url($path),
+			'url' => str_replace("%20", "+", $this->storage->url($path)),
 			'size' => $size,
 			'modified' => $lastModified !== false ? date('d-m-Y H:i:s', $this->storage->lastModified($path)) : '---'
 		];
@@ -322,14 +322,14 @@ class StorageService
 		$info = pathinfo($sourcePath);
 
 		$destinationPath = $info['dirname'] . '/' . $newName;
-		$this->checkLocked($path);
+		$this->checkLocked($sourcePath);
 		$this->checkUnique($destinationPath);
 
 		$user = session()->get('username', '');
 	   	
 
 	   	// $this->backup($sourcePath);
-		$this->backup($user, $path, 'rename');
+		$this->backup($user, $sourcePath, 'rename');
 
 		if ($this->isFile($sourcePath)) {
 
