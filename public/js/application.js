@@ -2057,7 +2057,10 @@ $(document).ready(function () {
             stopProcess();
             $('#edit').html('<input type="hidden" id="modal_path"><div id="editor"></div><button id="save_btn">Save</button>');
             $('#editor').html(response.data.content);
-            $('#edit').modal();
+            $('#edit').modal({
+                backdrop: 'static',
+                keypress: false
+            });
             $('#modal_path').val(path);
             var editor = new Jodit('#editor', {
                 textIcons: false,
@@ -2114,7 +2117,10 @@ $(document).ready(function () {
         event.preventDefault();
         $('#edit').html('<div id="editor"></div><button id="save_new_btn">Save</button>');
         $('#editor').html('');
-        $('#edit').modal();
+        $('#edit').modal({
+            backdrop: 'static',
+            keypress: false
+        });
         var editor = new Jodit('#editor', {
             textIcons: false,
             iframe: false,
