@@ -2147,6 +2147,10 @@ $(document).ready(function () {
 
         window.editor = editor;
     });
+
+    $('jquery-modal.blocker.current').on('click', function (event) {
+        event.preventDefault();
+    });
 });
 
 /***/ }),
