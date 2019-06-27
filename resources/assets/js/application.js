@@ -134,10 +134,8 @@ const showDirectories = directoriesList => {
                                 $('<button />')
                                     .addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn')
                                     .attr('type', 'button')
-                                    .attr('data-toggle', 'tooltip')
-                                    .attr('data-placement', 'top')
-                                    .attr('title', 'Show Info')
-                                    .append(
+                                    .text(' Show Info')
+                                    .prepend(
                                         $('<i />')
                                             .addClass('material-icons')
                                             .text('info')
@@ -147,10 +145,8 @@ const showDirectories = directoriesList => {
                                 $('<button />')
                                     .addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn')
                                     .attr('type', 'button')
-                                    .attr('data-toggle', 'tooltip')
-                                    .attr('data-placement', 'top')
-                                    .attr('title', 'Rename')
-                                    .append(
+                                    .text('Rename')
+                                    .prepend(
                                         $('<i />')
                                             .addClass('material-icons')
                                             .text('question_answer')
@@ -245,9 +241,6 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn')
                                     .attr('id', 'btn_edit')
-                                    .attr('data-toggle', 'tooltip')
-                                    .attr('data-placement', 'top')
-                                    .attr('title', 'Edit')
                                     .text(' Edit')
                                     .prepend(
                                         $('<i />')
@@ -259,9 +252,6 @@ const showFiles = filesList => {
                                 $('<button />')
                                     .addClass('btn btn-success btn-sm ml-2 tooltip-btn view-btn')
                                     .attr('id', 'btn_view')
-                                    .attr('data-toggle', 'tooltip')
-                                    .attr('data-placement', 'top')
-                                    .attr('title', 'View')
                                     .text(' View')
                                     .prepend(
                                         $('<i />')
@@ -278,7 +268,7 @@ const showFiles = filesList => {
                                         .attr('data-toggle', 'dropdown')
                                         .attr('aria-haspopup', 'true')
                                         .attr('aria-expanded', 'false')
-                                        .text('More')
+                                        .text(' More')
                                         .prepend(
                                             $('<i />')
                                                 .addClass('material-icons')
@@ -290,7 +280,7 @@ const showFiles = filesList => {
                                         .append($('<a />')
                                             .addClass('dropdown-item visibility-btn')
                                             .attr('id', 'btn_visibility')
-                                            .text(file.public_status == 'public' ? 'Make Private' : 'Make Public')
+                                            .text(file.public_status == 'public' ? ' Make Private' : ' Make Public')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
@@ -300,7 +290,7 @@ const showFiles = filesList => {
                                         .append($('<a />')
                                             .addClass('dropdown-item delete-lock-btn')
                                             .attr('id', 'btn_lock_edit')
-                                            .text('Lock Delete')
+                                            .text(' Lock Delete')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
@@ -310,7 +300,7 @@ const showFiles = filesList => {
                                         .append($('<a />')
                                             .addClass('dropdown-item edit-lock-btn')
                                             .attr('id', 'btn_lock_edit')
-                                            .text('Lock Edit')
+                                            .text(' Lock Edit')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
@@ -319,7 +309,7 @@ const showFiles = filesList => {
                                         )
                                         .append($('<a />')
                                             .addClass('dropdown-item download-btn')
-                                            .text('Download')
+                                            .text(' Download')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
@@ -328,7 +318,7 @@ const showFiles = filesList => {
                                         )
                                         .append($('<a />')
                                             .addClass('dropdown-item info-btn')
-                                            .text('Show Info')
+                                            .text(' Show Info')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
@@ -337,7 +327,7 @@ const showFiles = filesList => {
                                         )
                                         .append($('<a />')
                                             .addClass('dropdown-item rename-btn')
-                                            .text('Rename')
+                                            .text(' Rename')
                                             .prepend(
                                                 $('<i />')
                                                     .addClass('material-icons')
