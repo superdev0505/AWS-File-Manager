@@ -145,7 +145,7 @@ const showDirectories = directoriesList => {
                                 $('<button />')
                                     .addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn')
                                     .attr('type', 'button')
-                                    .text('Rename')
+                                    .text(' Rename')
                                     .prepend(
                                         $('<i />')
                                             .addClass('material-icons')
