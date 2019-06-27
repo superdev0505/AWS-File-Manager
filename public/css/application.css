@@ -11861,6 +11861,11 @@ a.close-modal:hover {
 }
 
 button.btn {
-  text-transform: capitalize;
+  text-transform: none !important;
+}
+
+.dropdown {
+  margin-left: 8px;
+  display: inline-block;
 }
 
