@@ -1363,7 +1363,7 @@ var showFiles = function showFiles(filesList) {
         $('#content_list tbody').append($('<tr />').append($('<td>').addClass('td-check').append($('<div />').addClass('form-check').append($('<label />').addClass('form-check-label').append($('<input />').addClass('form-check-input').attr({
             type: 'checkbox',
             value: file.path
-        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left file-visibility').append($('<i />').addClass('material-icons text-gray text-center').text(file.public_status == 'public' ? 'cloud_queue' : 'cloud_off'))).append($('<td />').addClass('td-type text-left lock-status').append($('<i />').addClass('material-icons text-gray text-center').text(file.lock_status == 2 ? 'lock' : file.lock_status == 1 ? 'delete_forever' : 'lock_open'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-info btn-sm tooltip-btn visibility-btn').attr('id', 'btn_visibility').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', file.public_status == 'public' ? 'Make Private' : 'Make Public').append($('<i />').addClass('material-icons').text(file.public_status == 'public' ? 'cloud_off' : 'cloud_queue'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn delete-lock-btn').attr('id', 'btn_lock_delete').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Lock Delete').append($('<i />').addClass('material-icons').text('delete_forever'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn').attr('id', 'btn_lock_edit').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Lock Edit').append($('<i />').addClass('material-icons').text('lock'))).append($('<button />').addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn').attr('id', 'btn_edit').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Edit').append($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Download').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Show Info').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Rename').append($('<i />').addClass('material-icons').text('question_answer')))));
+        })).append($('<span />').addClass('form-check-sign').append($('<span />').addClass('check')))))).append($('<td />').addClass('td-type text-left file-visibility').append($('<i />').addClass('material-icons text-gray text-center').text(file.public_status == 'public' ? 'cloud_queue' : 'cloud_off'))).append($('<td />').addClass('td-type text-left lock-status').append($('<i />').addClass('material-icons text-gray text-center').text(file.lock_status == 2 ? 'lock' : file.lock_status == 1 ? 'delete_forever' : 'lock_open'))).append($('<td />').addClass().text(file.name)).append($('<td />').addClass('td-url').text('')).append($('<td />').addClass('td-size text-center').text('')).append($('<td />').addClass('td-modified text-center').text('')).append($('<td />').addClass('td-actions text-right').append($('<button />').addClass('btn btn-info btn-sm tooltip-btn visibility-btn').attr('id', 'btn_visibility').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', file.public_status == 'public' ? 'Make Private' : 'Make Public').append($('<i />').addClass('material-icons').text(file.public_status == 'public' ? 'cloud_off' : 'cloud_queue'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn delete-lock-btn').attr('id', 'btn_lock_delete').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Lock Delete').append($('<i />').addClass('material-icons').text('delete_forever'))).append($('<button />').addClass('btn btn-danger btn-sm ml-2 tooltip-btn edit-lock-btn').attr('id', 'btn_lock_edit').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Lock Edit').append($('<i />').addClass('material-icons').text('lock'))).append($('<button />').addClass('btn btn-primary btn-sm ml-2 tooltip-btn edit-btn').attr('id', 'btn_edit').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Edit').text('Edit').prepend($('<i />').addClass('material-icons').text('edit'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn view-btn').attr('id', 'btn_view').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'View').text('View').append($('<i />').addClass('material-icons').text('visibility'))).append($('<button />').addClass('btn btn-success btn-sm ml-2 tooltip-btn download-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Download').append($('<i />').addClass('material-icons').text('save_alt'))).append($('<button />').addClass('btn btn-info btn-sm ml-2 tooltip-btn info-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Show Info').append($('<i />').addClass('material-icons').text('info'))).append($('<button />').addClass('btn btn-warning btn-sm ml-2 tooltip-btn rename-btn').attr('type', 'button').attr('data-toggle', 'tooltip').attr('data-placement', 'top').attr('title', 'Rename').append($('<i />').addClass('material-icons').text('question_answer')))));
     });
 };
 
@@ -2058,9 +2058,8 @@ $(document).ready(function () {
             $('#edit').html('<input type="hidden" id="modal_path"><div id="editor"></div><button id="save_btn">Save</button>');
             $('#editor').html(response.data.content);
             $('#edit').modal({
-                backdrop: 'static',
-                keypress: false,
-                show: true
+                escapeClose: false,
+                clickClose: false
             });
             $('#modal_path').val(path);
             var editor = new Jodit('#editor', {
@@ -2086,6 +2085,36 @@ $(document).ready(function () {
             });
 
             window.editor = editor;
+        }).catch(function (error) {
+
+            stopProcess();
+
+            showError(error.response.data.message);
+        });
+    });
+    $(document).on('click', '#btn_view', function (event) {
+
+        // event.preventDefault();
+        console.log('edit');
+        startProcess();
+
+        var row = $(this).parents('tr');
+
+        var path = row.find('input[type="checkbox"]').val();
+
+        axios.get('/api/edit', {
+            params: {
+                path: path
+            }
+
+        }).then(function (response) {
+
+            stopProcess();
+            $('#viewer').html(response.data.content);
+            $('#view').modal({
+                escapeClose: false,
+                clickClose: false
+            });
         }).catch(function (error) {
 
             stopProcess();
@@ -2119,9 +2148,8 @@ $(document).ready(function () {
         $('#edit').html('<div id="editor"></div><button id="save_new_btn">Save</button>');
         $('#editor').html('');
         $('#edit').modal({
-            backdrop: 'static',
-            keypress: false,
-            show: true
+            escapeClose: false,
+            clickClose: false
         });
         var editor = new Jodit('#editor', {
             textIcons: false,
@@ -2146,10 +2174,6 @@ $(document).ready(function () {
         });
 
         window.editor = editor;
-    });
-
-    $('jquery-modal.blocker.current').on('click', function (event) {
-        event.preventDefault();
     });
 });
 

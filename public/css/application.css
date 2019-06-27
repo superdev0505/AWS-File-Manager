@@ -11860,3 +11860,7 @@ a.close-modal:hover {
           flex: 0 0 auto !important;
 }
 
+button.btn {
+  text-transform: capitalize;
+}
+

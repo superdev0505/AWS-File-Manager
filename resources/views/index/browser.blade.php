@@ -92,6 +92,10 @@
 		</div>
 		<button id="save_btn">Save</button>
 	</div>
+	<div id="view" class="modal">
+		<div id="viewer">
+		</div>
+	</div>
 	
 
 @endsection
